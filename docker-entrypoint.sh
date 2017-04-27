@@ -1,14 +1,8 @@
 #!/bin/sh
 set -e
 
-CEREBRO_OPTS=""
-
 if [ ! -z "$ES_HOST" ]; then
-  CEREBRO_OPTS="${CEREBRO_OPTS} -Dhttp.address=${ES_HOST}"
+  sed -i 's|hosts = \[| hosts = [\\n {\\n    host = \"${ES_HOST}:${ES_PORT]\"\\n    name = \"${ES_NAME}\"\\n  ]|' ./conf/application.conf
 fi
 
-if [ ! -z "$ES_PORT" ]; then
-  CEREBRO_OPTS="${CEREBRO_OPTS} -Dhttp.port=${ES_PORT}"
-fi
-
-gosu cerebro ./bin/cerebro $CEREBRO_OPTS
+gosu cerebro ./bin/cerebro
