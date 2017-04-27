@@ -11,5 +11,4 @@ if [ ! -z "$ES_PORT" ]; then
   CEREBRO_OPTS="${CEREBRO_OPTS} -Dhttp.port=${ES_PORT}"
 fi
 
-gosu nobody ./bin/cerebro $CEREBRO_OPTS
-#./bin/cerebro $CEREBRO_OPTS
+gosu cerebro ./bin/cerebro $CEREBRO_OPTS
