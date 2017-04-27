@@ -19,8 +19,13 @@ RUN set -x \
         && tar zxvf cerebro-${CEREBRO_VERSION}.tgz -C /opt/cerebro --strip-components=1 \
         && rm cerebro-${CEREBRO_VERSION}.tgz \
         && groupadd cerebro && useradd -g cerebro cerebro \
-        && chown cerebro:cerebro -R /opt/cerebro
+        && chown cerebro:cerebro -R /opt/cerebro \
+        && wget -O /usr/local/bin/confd https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64 \
+        && chmod +x /usr/local/bin/confd \
+        && mkdir -p /etc/confd/{conf.d,templates}
 
+COPY files/application.toml /etc/confd/conf.d/application.toml
+COPY files/application.conf.tmpl /etc/confd/templates/application.conf.tmpl
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 WORKDIR /opt/cerebro

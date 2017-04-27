@@ -35,8 +35,10 @@ auth = {
 
 # A list of known hosts
 hosts = [
+  {{if getenv "ES_HOST"}}
   {
-    host = "{{getenv "ES_HOST"}}:{{getenv "ES_PORT"}}"
+    host = "{{or (getenv "ES_PROTOCOL") "http"}}://{{getenv "ES_HOST"}}:{{getenv "ES_PORT"}}"
     name = "{{getenv "ES_NAME"}}"
   }
+  {{end}}
 ]
